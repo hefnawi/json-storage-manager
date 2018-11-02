@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="json_storage_manager",
-    version="0.0.1",
+    version="0.0.2",
     author="Ahmed Hefnawi",
     author_email="me@ahmedhefnawi.com",
     description="JSON Storage Manager for JSON data stored in text-files",
