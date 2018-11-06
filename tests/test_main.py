@@ -1,4 +1,3 @@
-import pytest
 import json
 from json_storage_manager import atomic, utils
 
@@ -17,26 +16,26 @@ from json_storage_manager import atomic, utils
 #     json.dump(products_data, products_file_w)
 
 
-def create_data():
-    """
-    """
-    import json
-    import lorem
-    import uuid
-    import random
+# def create_data():
+#     """
+#     """
+#     import json
+#     import lorem
+#     import uuid
+#     import random
 
-    products_data = []
+#     products_data = []
 
-    for i in range(5000000):
-        products_data.append(
-            {'uuid': str(uuid.uuid1()),
-             'name': str(lorem.sentence()),
-             'price': str(round(random.uniform(5.0, 6000.0), 2))
-             }
-            )
+#     for i in range(5000000):
+#         products_data.append(
+#             {'uuid': str(uuid.uuid1()),
+#              'name': str(lorem.sentence()),
+#              'price': str(round(random.uniform(5.0, 6000.0), 2))
+#              }
+#             )
 
-    with open("data-5m.json", "w") as products_file_w:
-        json.dump(products_data, products_file_w, sort_keys=True, indent=2)
+#     with open("data-5m.json", "w") as products_file_w:
+#         json.dump(products_data, products_file_w, sort_keys=True, indent=2)
 
 
 # filename = "tests/dummy_products.json"
