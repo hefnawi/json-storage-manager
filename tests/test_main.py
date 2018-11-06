@@ -55,19 +55,19 @@ def create_data():
 
 
 def test_is_file_ok():
-    filename = "data/dummy_products.json"
+    filename = "tests/data/dummy_products.json"
 
     assert utils.is_file(filename) is True
 
 
 def test_is_file_not_ok():
-    invalid_filename = "data/invalid.json"
+    invalid_filename = "tests/data/invalid.json"
 
     assert utils.is_file(invalid_filename) is None
 
 
 def test_json_read_object():
-    filename = "data/dummy_products.json"
+    filename = "tests/data/dummy_products.json"
     with open(filename, "r") as f:
         products_data = json.load(f)
     test = [i for i in products_data if i["uuid"] == "e4eaefcd-e128-11e8-87d5-680715cce921"]
@@ -75,7 +75,7 @@ def test_json_read_object():
 
 
 def test_json_add_object():
-    filename = "data/dummy_products.json"
+    filename = "tests/data/dummy_products.json"
 
     with atomic.atomic_write(filename) as temp_file:
         with open(filename, "r") as products_file:

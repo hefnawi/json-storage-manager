@@ -1,0 +1,4 @@
+pytest==3.10.0
+six
+-i https://testpypi.python.org/pypi
+json-storage-manager
