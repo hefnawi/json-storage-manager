@@ -1,12 +1,10 @@
 language: python
 python:
-  #- "3.3"
   - "3.4"
   - "3.6"
   # PyPy versions
   - "pypy3" # Pypy3 2.4.0
   - "pypy3.5" # PyPy3.5 v6.0.0
-  #- "pypy-5.3.1"
 
 # command to install dependencies
 install:
@@ -14,6 +12,3 @@ install:
 
 # command to run tests
 script: pytest
-
-after_success:
-  - coveralls
