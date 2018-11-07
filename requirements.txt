@@ -1,4 +1,3 @@
 pytest>=3.0.5
 six
--i https://testpypi.python.org/pypi
 json-storage-manager
