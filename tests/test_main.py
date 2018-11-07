@@ -54,7 +54,7 @@ def test_read_json(json_file):
 
 # add to contents of json file
 def test_write_json(json_file):
-    with atomic.atomic_write(json_file) as temp_file:
+    with atomic.atomic_write(str(json_file)) as temp_file:
         with open(json_file) as products_file:
             # get the JSON data into memory
             products_data = json.load(products_file)
