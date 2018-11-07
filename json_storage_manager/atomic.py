@@ -9,7 +9,7 @@ def _tempfile(filename):
     """
     Create a NamedTemporaryFile instance to be passed to atomic_writer
     """
-    return tempfile.NamedTemporaryFile(mode='w',
+    return tempfile.NamedTemporaryFile(mode='w+b',
                                        dir=os.path.dirname(filename),
                                        prefix=os.path.basename(filename),
                                        suffix='.tmp',
