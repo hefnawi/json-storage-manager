@@ -2,3 +2,5 @@
 
 # json-storage-manager
 JSON Storage Manager Python Package
+
+# TODO: MOVE FASTER =)
