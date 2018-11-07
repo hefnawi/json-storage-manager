@@ -1,83 +1,61 @@
 import json
+import pytest
+import random
+import uuid
 from json_storage_manager import atomic, utils
-
-# with open("../../../data/data-100k.json", "r") as products_file_r:
-#     products_data = json.load(products_file_r)
-
-
-# products_data.append(
-#     {'UUID': "2299d69e-deba-11e8-bded-680715cce955",
-#      'price': "77",
-#      'name': "Brand New Product"
-#      })
-
-
-# with open("../../../data/data-100k.json", "w") as products_file_w:
-#     json.dump(products_data, products_file_w)
-
-
-# def create_data():
-#     """
-#     """
-#     import json
-#     import lorem
-#     import uuid
-#     import random
-
-#     products_data = []
-
-#     for i in range(5000000):
-#         products_data.append(
-#             {'uuid': str(uuid.uuid1()),
-#              'name': str(lorem.sentence()),
-#              'price': str(round(random.uniform(5.0, 6000.0), 2))
-#              }
-#             )
-
-#     with open("data-5m.json", "w") as products_file_w:
-#         json.dump(products_data, products_file_w, sort_keys=True, indent=2)
-
-
-# filename = "tests/dummy_products.json"
-
-# with fatomic.atomic_write(filename) as temp_file:
-#     with open(filename, "r") as products_file:
-#         # get the JSON data into memory
-#         _products_data = json.load(products_file)
-#     # now process the JSON data
-#     _products_data.append(
-#         {'UUID': "2299d69e-deba-11e8-bded-680715cce955",
-#          'price': "77",
-#          'name': "New Product"
-#          })
-#     json.dump(_products_data, temp_file)
-
-
-def test_is_file_ok():
-    filename = "tests/data/dummy_products.json"
-
-    assert utils.is_file(filename) is True
 
 
 def test_is_file_not_ok():
-    invalid_filename = "tests/data/invalid.json"
+    invalid_filename = "tests/data.json"
+    assert not utils.is_file(invalid_filename)
 
-    assert utils.is_file(invalid_filename) is None
+
+def test_is_file_ok():
+    invalid_filename = "tests/test_main.py"
+    assert utils.is_file(invalid_filename)
 
 
-def test_json_read_object():
-    filename = "tests/data/dummy_products.json"
-    with open(filename, "r") as f:
+@pytest.fixture(scope='session')
+def create_json_data():
+
+    def _create_json_data(product_name):
+        return {
+            "uuid": str(uuid.uuid4()),
+            "name": str(product_name),
+            "price": str(round(random.uniform(5.0, 6000.0), 2))
+        }
+
+    return _create_json_data
+
+
+@pytest.fixture(scope='session')
+def json_file(tmpdir_factory, create_json_data):
+    json_1 = create_json_data("Alpha Product MK-1000")
+    json_2 = create_json_data("Bravo Product MK-2000")
+    json_3 = create_json_data("Charlie Product MK-3000")
+    json_list = []
+    json_list.append(json_1)
+    json_list.append(json_2)
+    json_list.append(json_3)
+    fn = tmpdir_factory.mktemp('data').join('products.json')
+    fn.write(json.dumps(json_list))
+    return fn
+
+
+# read contents of json file
+def test_read_json(json_file):
+    with open(json_file, "r") as f:
         products_data = json.load(f)
-    test = [i for i in products_data if i["uuid"] == "e4eaefcd-e128-11e8-87d5-680715cce921"]
-    assert test[0]["special_price"] == '1654.03'
+    for item in products_data:
+        assert item["uuid"]
+        assert item["name"]
+        assert item["price"]
 
 
-def test_json_add_object():
-    filename = "tests/data/dummy_products.json"
-
-    with atomic.atomic_write(filename) as temp_file:
-        with open(filename, "r") as products_file:
+# add to contents of json file
+def test_write_json(json_file):
+    with atomic.atomic_write(json_file) as temp_file:
+        with open(json_file, "r") as products_file:
             # get the JSON data into memory
             products_data = json.load(products_file)
         # now process the JSON data
@@ -88,7 +66,7 @@ def test_json_add_object():
              })
         json.dump(products_data, temp_file)
 
-    with open(filename, "r") as f:
+    with open(json_file, "r") as f:
         products_data = json.load(f)
     test = [i for i in products_data if i["uuid"] == "2299d69e-deba-11e8-bded-680715cce955"]
     assert test[0]["name"] == 'Test Product'
