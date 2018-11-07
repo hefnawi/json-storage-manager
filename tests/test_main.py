@@ -44,7 +44,7 @@ def json_file(tmpdir_factory, create_json_data):
 
 # read contents of json file
 def test_read_json(json_file):
-    with open(json_file) as f:
+    with open(str(json_file)) as f:
         products_data = json.load(f)
     for item in products_data:
         assert item["uuid"]
@@ -55,7 +55,7 @@ def test_read_json(json_file):
 # add to contents of json file
 def test_write_json(json_file):
     with atomic.atomic_write(str(json_file)) as temp_file:
-        with open(json_file) as products_file:
+        with open(str(json_file)) as products_file:
             # get the JSON data into memory
             products_data = json.load(products_file)
         # now process the JSON data
@@ -66,7 +66,7 @@ def test_write_json(json_file):
              })
         json.dump(products_data, temp_file)
 
-    with open(json_file) as f:
+    with open(str(json_file)) as f:
         products_data = json.load(f)
     test = [i for i in products_data if i["uuid"] == "2299d69e-deba-11e8-bded-680715cce955"]
     assert test[0]["name"] == 'Test Product'
