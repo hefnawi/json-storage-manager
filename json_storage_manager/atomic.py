@@ -49,8 +49,8 @@ def set_item(filename, item):
     """
     Save entry to JSON file
     """
-    with atomic_write(filename) as temp_file:
-        with open(filename) as products_file:
+    with atomic_write(os.fsencode(filename)) as temp_file:
+        with open(os.fsencode(filename)) as products_file:
             # get the JSON data into memory
             products_data = json.load(products_file)
         # now process the JSON data
