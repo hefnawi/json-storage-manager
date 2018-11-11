@@ -22,7 +22,7 @@ def atomic_write(filename):
     """
     Open a NamedTemoraryFile handle in a context manager
     """
-    f = _tempfile(filename)
+    f = _tempfile(os.fsencode(filename))
 
     try:
         yield f
@@ -37,7 +37,7 @@ def get_item(filename, uuid):
     """
     Read entry from JSON file
     """
-    with open(filename, "r") as f:
+    with open(os.fsencode(str(filename)), "r") as f:
         data = json.load(f)
         results = [i for i in data if i["uuid"] == str(uuid)]
         if results:
@@ -49,8 +49,8 @@ def set_item(filename, item):
     """
     Save entry to JSON file
     """
-    with atomic_write(os.fsencode(filename)) as temp_file:
-        with open(os.fsencode(filename)) as products_file:
+    with atomic_write(os.fsencode(str(filename))) as temp_file:
+        with open(os.fsencode(str(filename))) as products_file:
             # get the JSON data into memory
             products_data = json.load(products_file)
         # now process the JSON data

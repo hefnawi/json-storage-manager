@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
 import json
 import pytest
 import random
@@ -47,7 +46,7 @@ def json_file(tmpdir_factory, create_json_data):
 
 # read contents of json file
 def test_read_json(json_file):
-    with open(os.fsencode(str(json_file))) as f:
+    with open(str(json_file)) as f:
         products_data = json.load(f)
     for item in products_data:
         assert item["uuid"]
@@ -57,19 +56,19 @@ def test_read_json(json_file):
 
 # add to contents of json file
 def test_write_json(json_file):
-    with atomic.atomic_write(os.fsencode(str(json_file))) as temp_file:
-        with open(os.fsencode(str(json_file))) as products_file:
+    with atomic.atomic_write(str(json_file)) as temp_file:
+        with open(str(json_file)) as products_file:
             # get the JSON data into memory
             products_data = json.load(products_file)
         # now process the JSON data
         products_data.append(
             {'uuid': "2299d69e-deba-11e8-bded-680715cce955",
-             'special_price': "111.0",
+             'special_price': 111.0,
              'name': "Test Product"
              })
         json.dump(products_data, temp_file)
 
-    with open(os.fsencode(str(json_file))) as f:
+    with open(str(json_file)) as f:
         products_data = json.load(f)
     test = [i for i in products_data if i["uuid"] == "2299d69e-deba-11e8-bded-680715cce955"]
     assert test[0]["name"] == 'Test Product'
@@ -77,23 +76,23 @@ def test_write_json(json_file):
 
 def test_get_item(json_file):
     results = atomic.get_item(
-        os.fsencode(str(json_file)), "2299d69e-deba-11e8-bded-680715cce955")
+        str(json_file), "2299d69e-deba-11e8-bded-680715cce955")
     assert results
     assert results[0]["name"] == 'Test Product'
 
 
 def test_get_no_item(json_file):
     results = atomic.get_item(
-        os.fsencode(str(json_file)), "xxxxxxxx-deba-11e8-bded-680715cce955")
+        str(json_file), "xxxxxxxx-deba-11e8-bded-680715cce955")
     assert not results
 
 
 def test_set_item(json_file):
     new_item = {'uuid': "1144d69e-joya-33e8-bdfd-680688cce955",
-                'special_price': "333.0",
+                'special_price': 333.0,
                 'name': "Test Product via set_item"
                 }
-    results = atomic.set_item(os.fsencode(str(json_file)), new_item)
+    results = atomic.set_item(str(json_file), new_item)
     results_get = atomic.get_item(
         str(json_file), "1144d69e-joya-33e8-bdfd-680688cce955")
     assert results
