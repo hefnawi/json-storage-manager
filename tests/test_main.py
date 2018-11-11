@@ -82,6 +82,12 @@ def test_get_item(json_file):
     assert results[0]["name"] == 'Test Product'
 
 
+def test_get_no_item(json_file):
+    results = atomic.get_item(
+        str(json_file), "xxxxxxxx-deba-11e8-bded-680715cce955")
+    assert not results
+
+
 def test_set_item(json_file):
     new_item = {'uuid': "1144d69e-joya-33e8-bdfd-680688cce955",
                 'special_price': "333.0",
