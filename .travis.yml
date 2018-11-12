@@ -1,13 +1,14 @@
 language: python
 python:
-  - "3.5"
-  - "3.6"
-  # PyPy versions
-  - "pypy3.5" # PyPy3.5 v6.0.0
-
-# command to install dependencies
+- '3.5'
+- '3.6'
+- pypy3.5
 install:
-  - pip install -r requirements.txt
-
-# command to run tests
+- pip install -r requirements.txt
 script: pytest
+
+deploy:
+  provider: pypi
+  user: hefnawi
+  password:
+    secure: LrwqieD6rEsUi2rk0L1UONqj/sVLvWF3jN0c0VNOqHEyoE8sqNwI3rVWRg/3FnxBaangFJoSyBmRgzCP+89KmVgER7vJlCjOJOptRo+jIcJ/KVgGW2o2CnOL2O2r5vPt18Z7cfARMvudfMahMbL2+UwwUw6O2tT0hfPvuVKYxnMaSh7gjyGQ6SMwqm21TM+Fh3u85mI2W5xsj8zV6yPRKnF2LGg1aqQlejgKbzzPN8k1uuqPMvFvmf0q9TlPKZoWh5KMn0fGxp8SZCuP6GVNDgTCgQuCOxHLJ2mBGv9BG2RN3EXK0+XhVo1PNarRG4t9OFPsxkMh+i4WRA9pp5QEBssosc5hya4k7ppzAFgBz8Z2wzroKiG5kBqc24zOyyI8bpaP6y7pG+zeryBN4jrEPXZxYX0gD3skMe3uT5qL9fzw41tS3VGfwQrGOEXOPsmv/cUqpKSuhmJYJ1Rjr6x+DJIUHlqYlQzjzfVkH3EsGetUoHKfCvjZF8ucRYWQu+vxj09LIq1/X9g5wOCHJztXL4bdfNoG6OJJ7X3O8p9T3UQtOH7DES5GDPH7TqhrXsTyNwgbHdlZr0gRot8P4mzYMM4Xt/DUXcrw6gmAndRw7w1deuyfT58bYK5L2herZnRYEVVK7RZQmEII+aeDFPRLF8JRSrwaqKjop/a5SjxDUIQ=
