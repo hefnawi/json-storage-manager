@@ -51,10 +51,31 @@ def set_item(filename, item):
     """
     with atomic_write(os.fsencode(str(filename))) as temp_file:
         with open(os.fsencode(str(filename))) as products_file:
-            # get the JSON data into memory
+            # load the JSON data into memory
             products_data = json.load(products_file)
-        # now process the JSON data
-        products_data.append(item)
+        # check if UUID already exists
+        uuid_list = [i for i in filter(
+            lambda z: z["uuid"] == str(item["uuid"]), products_data)]
+        if len(uuid_list) == 0:
+            # add the new item to the JSON file
+            products_data.append(item)
+            # save the new JSON to the temp file
+            json.dump(products_data, temp_file)
+            return True
+        return None  # record already exists
+
+
+def update_item(filename, item, uuid):
+    """
+    Update entry by UUID in the JSON file
+    """
+    with atomic_write(os.fsencode(str(filename))) as temp_file:
+        with open(os.fsencode(str(filename))) as products_file:
+            # load the JSON data into memory
+            products_data = json.load(products_file)
+        # apply modifications to the JSON data wrt UUID
+        [products_data[i].update(name=item["name"], price=item["price"]) for (
+            i, j) in enumerate(products_data) if j["uuid"] == str(uuid)]
         # save the modified JSON data into the temp file
         json.dump(products_data, temp_file)
         return True
