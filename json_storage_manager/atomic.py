@@ -74,7 +74,7 @@ def update_item(filename, item, uuid):
             # load the JSON data into memory
             products_data = json.load(products_file)
         # apply modifications to the JSON data wrt UUID
-        [products_data[i].update(name=item["name"], price=item["price"]) for (
+        [products_data[i].update(item) for (
             i, j) in enumerate(products_data) if j["uuid"] == str(uuid)]
         # save the modified JSON data into the temp file
         json.dump(products_data, temp_file)
