@@ -77,7 +77,7 @@ def update_item(filename, item, uuid):
         # TODO: handle this in a neat way
         if 'products' in products_data[-1]:
             # handle orders object
-            [products_data[i]["products"].update(item) for (
+            [products_data[i]["products"][0].update(item) for (
                 i, j) in enumerate(products_data) if j["uuid"] == str(uuid)]
         else:
             # handle products object
