@@ -62,6 +62,7 @@ def set_item(filename, item):
             # save the new JSON to the temp file
             json.dump(products_data, temp_file)
             return True
+        json.dump(products_data, temp_file)
         return None  # record already exists
 
 
